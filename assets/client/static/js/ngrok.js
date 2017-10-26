@@ -361,6 +361,38 @@ ngrok.controller({
     },
 
     "TxnNavItem": function($scope, txnSvc) {
+
+        $scope.getMethod = function (methodAndPath) {
+            method = methodAndPath.split(' ')[0];
+            switch (method.toUpperCase()) {
+                case 'GET': $scope.methodColor = 'default'; break;
+                case 'POST': $scope.methodColor = 'info'; break;
+                default: $scope.methodColor = 'inverse';
+            }
+
+            return method;
+        }
+        
+        $scope.getPath = function (methodAndPath) {
+            path = methodAndPath.split(' ')[1];
+            return path;
+        }
+
+        $scope.getStatus = function (status) {
+            status = status.split(' ')[0];
+            console.log(status);
+            switch (status.split('')[0]) {
+                case '1': $scope.statusColor = 'default'; break;
+                case '2': $scope.statusColor = 'success'; break;
+                case '3': $scope.statusColor = 'warning'; break;
+                case '4': $scope.statusColor = 'important'; break;
+                case '5': $scope.statusColor = 'important'; break;
+                default: $scope.statusColor = 'inverse';
+            }
+
+            return status;
+        }
+
         $scope.isActive = function() { return txnSvc.isActive($scope.txn); }
         $scope.makeActive = function() {
             txnSvc.active($scope.txn);
@@ -368,6 +400,7 @@ ngrok.controller({
     },
 
     "HttpTxn": function($scope, txnSvc, $timeout) {
+        
         var setTxn = function() {
             $scope.Txn = txnSvc.active();
         };
