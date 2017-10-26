@@ -67,10 +67,55 @@
             <div ng-show="txns.length>0" class="row">
                 <div class="span6">
                     <h4>All Requests</h4>
+                    <style>
+                        .search-container {
+                            padding: 10px 0px;
+                            margin: 12px 0px -5px 0;
+                        }
+
+                        .search-container input {
+                            padding: 18px 10px;
+                            width: 100%;
+                        }
+
+                        .txn-selector * {
+                            font-size: 14px;
+                        }
+
+                        .path {
+                            width: 100%;
+                            /* word-wrap: normal; */
+                            white-space: nowrap;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            width: 300px;
+                            /* border: 1px solid #999; */
+                            direction: rtl;
+                            text-align: left;
+                        }
+
+                        @media screen and (max-width: 1200px)  {
+                            .path {
+                                width: 185px;
+                            }
+
+
+                            @media screen and (max-width: 980px)  {
+                                .path {
+                                    width: 65px;
+                                }
+                            }
+                        }
+                    </style>
+                        <div class="search-container span6">
+                            <input type="text" ng-model='inputFilter' placeholder="Filter">
+                        </div>
+                        
                     <table class="table txn-selector">
-                        <tr ng-controller="TxnNavItem" ng-class="{'selected':isActive()}" ng-repeat="txn in txns" ng-click="makeActive()">
-                            <td class="wrapped"><div class="path">{{ txn.Req.MethodPath }}</div></td>
-                            <td>{{ txn.Resp.Status }}</td>
+                        <tr ng-controller="TxnNavItem" ng-class="{'selected':isActive()}" ng-repeat="txn in txns | filter:inputFilter" ng-click="makeActive()">
+                            <td class=""><span class="label label-{{ methodColor }}">{{ getMethod(txn.Req.MethodPath) }}</span></td>
+                            <td class="wrapped"><div class="path">{{ getPath(txn.Req.MethodPath) }}</div></td>
+                            <td><span class="label label-{{ statusColor }}">{{ getStatus(txn.Resp.Status) }}</span></td>
                             <td><span class="pull-right">{{ txn.Duration }}</span></td>
                         </tr>
                     </table>
