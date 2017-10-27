@@ -1,5 +1,0 @@
-server_addr: ngrocker.io:4443
-tunnels:
-  test:
-    proto:
-      http: 80
