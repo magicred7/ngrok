@@ -1,0 +1,6 @@
+server_addr: localhost:4443
+tunnels:
+  test:
+    hostname: localhost:80
+    proto:
+      http: 80

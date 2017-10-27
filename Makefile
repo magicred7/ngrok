@@ -2,7 +2,7 @@
 export GOPATH:=$(shell pwd)
 
 BUILDTAGS=debug
-ASSETTAG=debug
+FIXER=debug
 
 default: all
 
@@ -16,7 +16,7 @@ fmt:
 	go fmt ngrok/...
 
 client: deps
-	go install -tags '$(BUILDTAGS)' ngrok/main/ngrok
+	go install ngrok/main/ngrok
 
 assets: client-assets server-assets
 
@@ -24,9 +24,9 @@ bin/go-bindata:
 	GOOS="" GOARCH="" go get github.com/jteeuwen/go-bindata/go-bindata
 
 client-assets: bin/go-bindata
-	bin/go-bindata -nomemcopy -pkg=assets -tags=$(BUILDTAGS) \
-		-debug=$(if $(findstring debug,$(ASSETTAG)),true,false) \
-		-o=src/ngrok/client/assets/assets_$(ASSETTAG).go \
+	bin/go-bindata -nomemcopy -pkg=assets \
+		-debug=$(if $(findstring debug,$(FIXER)),true,false) \
+		-o=src/ngrok/client/assets/assets_$(FIXER).go \
 		assets/client/...
 
 server-assets: bin/go-bindata
@@ -36,7 +36,7 @@ server-assets: bin/go-bindata
 		assets/server/...
 
 release-client: BUILDTAGS=debug
-release-client: ASSETTAG=release
+release-client: FIXER=release
 release-client: client
 
 release-server: BUILDTAGS=release
