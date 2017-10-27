@@ -2,6 +2,8 @@
 export GOPATH:=$(shell pwd)
 
 BUILDTAGS=debug
+ASSETTAG=debug
+
 default: all
 
 deps: assets
@@ -23,8 +25,8 @@ bin/go-bindata:
 
 client-assets: bin/go-bindata
 	bin/go-bindata -nomemcopy -pkg=assets -tags=$(BUILDTAGS) \
-		-debug=$(if $(findstring debug,$(BUILDTAGS)),true,false) \
-		-o=src/ngrok/client/assets/assets_$(BUILDTAGS).go \
+		-debug=$(if $(findstring debug,$(ASSETTAG)),true,false) \
+		-o=src/ngrok/client/assets/assets_$(ASSETTAG).go \
 		assets/client/...
 
 server-assets: bin/go-bindata
@@ -33,7 +35,8 @@ server-assets: bin/go-bindata
 		-o=src/ngrok/server/assets/assets_$(BUILDTAGS).go \
 		assets/server/...
 
-release-client: BUILDTAGS=release
+release-client: BUILDTAGS=debug
+release-client: ASSETTAG=release
 release-client: client
 
 release-server: BUILDTAGS=release
