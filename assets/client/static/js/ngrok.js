@@ -103,9 +103,10 @@ ngrok.factory("txnSvc", function() {
 
     var processResp = function(resp) {
         resp.statusClass = {
-            '2': "text-info",
-            '3': "muted",
-            '4': "text-warning",
+            '1': "text-info",
+            '2': "text-success",
+            '3': "text-warning",
+            '4': "text-error",
             '5': "text-error"
         }[resp.Status[0]];
 
@@ -365,9 +366,11 @@ ngrok.controller({
         $scope.getMethod = function (methodAndPath) {
             method = methodAndPath.split(' ')[0];
             switch (method.toUpperCase()) {
-                case 'GET': $scope.methodColor = 'default'; break;
-                case 'POST': $scope.methodColor = 'info'; break;
-                default: $scope.methodColor = 'inverse';
+                case 'GET': $scope.methodColor = 'info'; break;
+                case 'POST': $scope.methodColor = 'success'; break;
+                case 'PUT': $scope.methodColor = 'warning'; break;
+                case 'DELETE': $scope.methodColor = 'important'; break;
+                default: $scope.methodColor = 'default';
             }
 
             return method;
